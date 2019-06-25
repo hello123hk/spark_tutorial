@@ -30,9 +30,9 @@ public class CombineByKeyRdd {
         scoreDetails.add(new ScoreDetail("zhangsan", "Math", 91));
         scoreDetails.add(new ScoreDetail("zhangsan", "English", 80));
 
-        JavaRDD<ScoreDetail> scoreDetailsRDD = sc.parallelize(scoreDetails);
+        JavaRDD<ScoreDetail> scoreDetailsRDD = (JavaRDD<ScoreDetail>) sc.parallelize(scoreDetails);
 
-        JavaPairRDD<String, ScoreDetail> pairRDD = scoreDetailsRDD.mapToPair(new PairFunction<ScoreDetail, String, ScoreDetail>() {
+        JavaPairRDD<String, ScoreDetail> pairRDD = (JavaPairRDD<String, ScoreDetail>) scoreDetailsRDD.mapToPair(new PairFunction<ScoreDetail, String, ScoreDetail>() {
             @Override
             public Tuple2<String, ScoreDetail> call(ScoreDetail scoreDetail) throws Exception {
 
@@ -61,7 +61,7 @@ public class CombineByKeyRdd {
                 return new Tuple2<>(tp1._1 + tp2._1, tp1._2 + tp2._2);
             }
         };
-        JavaPairRDD<String, Tuple2<Float,Integer>> combineByRDD  = pairRDD.combineByKey(createCombine,mergeValue,mergeCombiners);
+        JavaPairRDD<String, Tuple2<Float,Integer>> combineByRDD  = (JavaPairRDD<String, Tuple2<Float, Integer>>) pairRDD.combineByKey(createCombine,mergeValue,mergeCombiners);
 
         //打印平均数
         Map<String, Tuple2<Float, Integer>> stringTuple2Map = combineByRDD.collectAsMap();

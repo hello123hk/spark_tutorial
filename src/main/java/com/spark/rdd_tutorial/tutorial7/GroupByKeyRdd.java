@@ -28,7 +28,7 @@ public class GroupByKeyRdd {
                 , new Tuple2("zs1", 188)
                 , new Tuple2("lihua", 188)),3);
         //将JavaRDD<Tuple2<String,Float>> 类型转换为 JavaPairRDD<String, Float>
-        JavaPairRDD<String, Float> scoreMapRDD = JavaPairRDD.fromJavaRDD(scoreDetails);
+        JavaPairRDD<String, Float> scoreMapRDD = (JavaPairRDD<String, Float>) JavaPairRDD.fromJavaRDD(scoreDetails);
         JavaRDD<List<Tuple2<String, Float>>> glom = scoreMapRDD.glom();
         glom.foreach(new VoidFunction<List<Tuple2<String, Float>>>() {
             @Override

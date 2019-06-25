@@ -20,10 +20,10 @@ public class MapPartitionsRdd {
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
         sc.setLogLevel("WARN");
 
-        JavaRDD<Integer> rdd = sc.parallelize(
+        JavaRDD<Integer> rdd = (JavaRDD<Integer>) sc.parallelize(
                 Arrays.asList(1,2,3,4,5,6,7,8,9,10));
 /*==========================把每一个元素平方 =======================================*/
-        JavaRDD<Integer> mapPartitionRDD = rdd.mapPartitions(new FlatMapFunction<Iterator<Integer>, Integer>() {
+        JavaRDD<Integer> mapPartitionRDD = (JavaRDD<Integer>) rdd.mapPartitions(new FlatMapFunction<Iterator<Integer>, Integer>() {
             @Override
             public Iterator<Integer> call(Iterator<Integer> it) throws Exception {
                 ArrayList<Integer> results = new ArrayList<>();
@@ -44,7 +44,7 @@ public class MapPartitionsRdd {
 
         /* ================把每一个数字i变成一个map(i,i*i)的形式======================================== */
 
-        JavaRDD<Tuple2<Integer, Integer>> tuple2JavaRDD = rdd.mapPartitions(new FlatMapFunction<Iterator<Integer>, Tuple2<Integer, Integer>>() {
+        JavaRDD<Tuple2<Integer, Integer>> tuple2JavaRDD = (JavaRDD<Tuple2<Integer, Integer>>) rdd.mapPartitions(new FlatMapFunction<Iterator<Integer>, Tuple2<Integer, Integer>>() {
             @Override
             public Iterator<Tuple2<Integer, Integer>> call(Iterator<Integer> it) throws Exception {
                 ArrayList<Tuple2<Integer, Integer>> tuple2s = new ArrayList<>();

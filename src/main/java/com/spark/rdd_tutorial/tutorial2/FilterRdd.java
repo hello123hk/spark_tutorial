@@ -1,5 +1,6 @@
 package com.spark.rdd_tutorial.tutorial2;
 
+import com.spark.rdd.tutorial.util.Constant;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -15,14 +16,8 @@ public class FilterRdd {
         SparkConf sparkConf = new SparkConf().setAppName("FilterRdd").setMaster("local");
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
         jsc.setLogLevel("WARN");
-        JavaRDD<String> lines = jsc.textFile("D:\\git\\spark_tutorial\\src\\main\\resources\\filter_sample.txt");
-        JavaRDD<String> zksRDD = lines.filter(new Function<String, Boolean>() {
-            @Override
-            public Boolean call(String s) throws Exception {
-                return s.contains("zks");
-            }
-        });
-        //打印内容
+        JavaRDD<String> lines = jsc.textFile(Constant.filePath);
+        JavaRDD<String> zksRDD = lines.filter((Function<String,Boolean>) line -> line.contains("zks"));
         List<String> zksCollect = zksRDD.collect();
         for (String str:zksCollect) {
             System.out.println(str);

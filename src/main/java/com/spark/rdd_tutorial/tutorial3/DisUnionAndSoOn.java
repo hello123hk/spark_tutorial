@@ -19,7 +19,7 @@ public class DisUnionAndSoOn {
         sc.setLogLevel("WARN");
 
         // Distinct
-        JavaRDD<String> RDD1 = sc.parallelize(Arrays.asList("aa", "aa", "bb", "cc", "dd"));
+        JavaRDD<String> RDD1 = (JavaRDD<String>) sc.parallelize(Arrays.asList("aa", "aa", "bb", "cc", "dd"));
         JavaRDD<String> distinctRDD = RDD1.distinct();
         List<String> collect = distinctRDD.collect();
         System.out.println("*************** Distinct ***********");
@@ -28,7 +28,7 @@ public class DisUnionAndSoOn {
         }
 
         //union
-        JavaRDD<String> RDD2 = sc.parallelize(Arrays.asList("aa","dd","ff"));
+        JavaRDD<String> RDD2 = (JavaRDD<String>) sc.parallelize(Arrays.asList("aa","dd","ff"));
         JavaRDD<String> unionRDD = RDD1.union(RDD2);
         collect = unionRDD.collect();
         System.out.println("\n"+"*************** Union ***********");
@@ -43,6 +43,7 @@ public class DisUnionAndSoOn {
         for (String str:collect) {
             System.out.println(str);
         }
+
         //subtract
         JavaRDD<String> subtractRDD = RDD1.subtract(RDD2);
         collect = subtractRDD.collect();
@@ -50,8 +51,9 @@ public class DisUnionAndSoOn {
         for (String str:collect) {
             System.out.println(str);
         }
+
         //cartesian
-        JavaPairRDD<String, String> cartesian = RDD1.cartesian(RDD2);
+        JavaPairRDD<String, String> cartesian = (JavaPairRDD<String, String>) RDD1.cartesian(RDD2);
         List<Tuple2<String, String>> collect1 = cartesian.collect();
         System.out.println("\n"+"*************** Cartesian ***********");
         for (Tuple2<String, String> tp:collect1) {
